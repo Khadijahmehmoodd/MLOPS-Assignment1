@@ -1,0 +1,37 @@
+name: Dev Workflow
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install flake8
+
+    - name: Run Flake8
+      run: |
+        flake8 --exclude=__init__.py .
+
+    - name: Send notification on success
+      if: success()
+      run: echo "Code quality check passed! Sending notification..."
+
+    - name: Send notification on failure
+      if: failure()
+      run: echo "Code quality check failed! Sending notification..."
+
+          echo Add other actions to build,
+          echo test, and deploy your project.
