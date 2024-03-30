@@ -6,11 +6,12 @@ app = Flask(__name__)
 # Train the model and store it as a global variable
 trained_model, label_encoder = train_model()
 
+
 @app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
         text = request.json.get('text')
-        
+
         if text is None:
             return jsonify({'error': 'Text data is missing'}), 400
 
@@ -28,13 +29,16 @@ def predict():
     else:
         return jsonify({'error': 'Method Not Allowed'}), 405
 
+
 @app.route('/favicon.ico')
 def favicon():
     return jsonify({'message': 'Favicon not found'}), 404
 
+
 @app.route('/')
 def index():
     return jsonify({'message': 'Welcome to the prediction API!'})
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
