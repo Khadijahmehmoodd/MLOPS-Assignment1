@@ -2,6 +2,7 @@ import unittest
 import subprocess
 
 class TestApp(unittest.TestCase):
+
     def test_app_script(self):
         # Check if the app.py script can be executed without errors
         try:
@@ -11,3 +12,4 @@ class TestApp(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
