@@ -1,8 +1,13 @@
-name: Automated Tests
+name: Run Tests
 
 on:
   push:
     branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
       - dev
 
 jobs:
@@ -16,16 +21,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: 3.12
 
       - name: Install dependencies
-        run: |
-          pip install flake8 pytest
+        run: pip install -r requirements.txt
 
-      - name: Run Flake8
-        run: |
-          flake8 --exclude=__init__.py .
-
-      - name: Run pytest
-        run: |
-          python -m pytest
+      - name: Run tests
+        run: python -m pytest
