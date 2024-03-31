@@ -15,7 +15,7 @@ lint:
 
 test:
 	@echo "Running tests..."
-	@$(PYTHON) -m unittest discover -s tests
+	@$(PYTHON) -m pytest
 
 build: lint test
 	@echo "Building the application..."
@@ -41,12 +41,3 @@ docker-stop:
 deploy: docker-build
 	@echo "Pushing Docker image to Docker Hub..."
 	@$(DOCKER) push $(REPO)
-
-# Usage:
-# make lint - Lint the code
-# make test - Run tests
-# make build - Build the application
-# make docker-build - Build Docker image
-# make docker-run - Run Docker container
-# make docker-stop - Stop Docker container
-# make deploy - Deploy the application (build Docker image and push to Docker Hub)
