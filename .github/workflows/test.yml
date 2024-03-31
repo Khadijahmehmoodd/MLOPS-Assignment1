@@ -3,28 +3,29 @@ name: Automated Tests
 on:
   push:
     branches:
-      - main
       - dev
-  pull_request:
-    branches:
-      - main
 
 jobs:
   test:
-    name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install flake8 pytest
 
-    - name: Run tests
-      run: pytest
+      - name: Run Flake8
+        run: |
+          flake8 --exclude=__init__.py .
+
+      - name: Run pytest
+        run: |
+          python -m pytest
