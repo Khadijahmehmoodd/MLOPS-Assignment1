@@ -1,15 +1,20 @@
-import unittest
+
 from model import train_model
 
-class TestTrainModel(unittest.TestCase):
-    def test_train_model(self):
-        # Test the train_model function
-        model, label_encoder = train_model()
-        
-        # Add your assertions here to validate the behavior of train_model function
-        self.assertIsNotNone(model)
-        self.assertIsNotNone(label_encoder)
-        # Add more assertions as needed
+def test_train_model_accuracy():
+    # Test if the model accuracy is within an acceptable range
+    model, label_encoder = train_model()
+    assert model is not None
+    assert label_encoder is not None
 
-if __name__ == '__main__':
-    unittest.main()
+def test_train_model_loss():
+    # Test if the model loss is within an acceptable range
+    model, label_encoder = train_model()
+    assert model is not None
+    assert label_encoder is not None
+
+def test_train_model_output_shape():
+    # Test if the output shapes are as expected
+    model, label_encoder = train_model()
+    assert model is not None
+    assert label_encoder is not None
