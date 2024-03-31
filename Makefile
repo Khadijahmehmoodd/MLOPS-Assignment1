@@ -15,7 +15,7 @@ lint:
 
 test:
 	@echo "Running tests..."
-	@$(PYTHON) -m pytest
+	@$(PYTHON) -m pytest _test.py 
 
 build: lint test
 	@echo "Building the application..."
