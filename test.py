@@ -1,6 +1,6 @@
 import unittest
-import numpy as np
-from model import train_model
+import pandas as pd
+from model import train_model  # Assuming train_model is defined in model.py
 
 class TestTrainModel(unittest.TestCase):
     def setUp(self):
@@ -19,12 +19,14 @@ class TestTrainModel(unittest.TestCase):
     def test_train_model_accuracy(self):
         # Test if the model accuracy is within an acceptable range
         model, label_encoder = train_model(self.mock_df)
+        X_test, y_test = None, None  # Define or import X_test, y_test
         _, accuracy = model.evaluate(X_test, y_test)
         self.assertGreaterEqual(accuracy, 0.5)  # Example threshold
 
     def test_train_model_loss(self):
         # Test if the model loss is within an acceptable range
         model, label_encoder = train_model(self.mock_df)
+        X_test, y_test = None, None  # Define or import X_test, y_test
         _, loss = model.evaluate(X_test, y_test)
         self.assertLessEqual(loss, 0.5)  # Example threshold
 

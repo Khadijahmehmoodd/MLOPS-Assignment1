@@ -4,4 +4,3 @@ tensorflow
 pandas
 flake8
 pytest
-numpy
