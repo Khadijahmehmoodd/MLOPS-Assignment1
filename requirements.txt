@@ -1,6 +1,0 @@
-flask
-scikit-learn
-tensorflow
-pandas
-flake8
-pytest
