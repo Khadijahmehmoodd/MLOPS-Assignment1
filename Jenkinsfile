@@ -1,79 +1,52 @@
 pipeline {
     agent any
-    
+
+    environment {
+        // Docker Hub credentials ID and image name
+        DOCKER_CREDENTIALS_ID = '375bc396-4d43-431d-a37d-403db764eda0'
+        IMAGE_NAME = 'khadijahmehmood/mlopsassignment'
+        IMAGE_TAG = 'latest' 
+    }
+
     stages {
-        stage('Code Quality Check') {
+        stage('Checkout') {
             steps {
-                // Check code quality using flake8
-                bat 'flake8 .'
+                // Check out the source code
+                checkout scm
             }
         }
-        stage('Merge to Dev Branch') {
-            when {
-                branch 'main'
-            }
+
+        stage('Build and Push Docker Image') {
             steps {
-                // Merge changes to dev branch
-                bat 'git checkout dev && git merge main && git push origin dev'
-            }
-        }
-        stage('Unit Testing') {
-            when {
-                branch 'dev'
-            }
-            steps {
-                // Run unit tests
-                bat 'python -m pytest _test.py'
-            }
-        }
-        stage('Merge to Test Branch') {
-            when {
-                branch 'dev'
-            }
-            steps {
-                // Merge changes to test branch
-                bat 'git checkout test && git merge dev && git push origin test'
-            }
-        }
-        stage('Merge to Master Branch and Build Docker Image') {
-            when {
-                branch 'test'
-            }
-            steps {
-                // Merge changes to master branch
-                bat 'git checkout master && git merge test && git push origin master'
-                
-                // Build Docker image
                 script {
-                    docker.build("your-image-name:latest")
-                }
-            }
-        }
-        stage('Push Docker Image to Registry') {
-            when {
-                branch 'master'
-            }
-            steps {
-                // Push Docker image to Docker Hub or any other registry
-                script {
-                    docker.withRegistry('https://registry.example.com', 'registry-credentials') {
-                        docker.image("your-image-name:latest").push()
+                    // Log in to Docker Hub
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
+                        // Build the Docker image
+                        def app = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", "-f Dockerfile .")
+                        // Push the image to Docker Hub
+                        app.push()
                     }
                 }
             }
         }
-        stage('Email Notification') {
-            when {
-                branch 'master'
-            }
-            steps {
-                // Send email notification to administrator
-                emailext (
-                    to: 'i200970@nu.edu.com',
-                    subject: 'Jenkins Job Completed Successfully',
-                    body: 'The Jenkins job for building and pushing Docker image has completed successfully.'
-                )
-            }
+
+
+    }
+
+    post {
+        success {
+            // Send an email notification on successful build
+            mail to: 'i201791@nu.edu.pk',
+                 subject: "Successful Deployment: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "A new Docker image has been pushed to Docker Hub: ${IMAGE_NAME}:${IMAGE_TAG}."
+        }
+        failure {
+            // Send an email notification on failure
+            mail to: 'i201791@nu.edu.pk',
+                 subject: "Failed Deployment: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "The build or deployment has failed. Please check Jenkins for more details."
         }
     }
+
+
 }
