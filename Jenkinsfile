@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Docker Hub credentials ID and image name
-        DOCKER_CREDENTIALS_ID = '375bc396-4d43-431d-a37d-403db764eda0'
+        DOCKER_CREDENTIALS_ID = 'Docker-hub'
         IMAGE_NAME = 'khadijahmehmood/mlopsassignment'
         IMAGE_TAG = 'latest' 
     }
