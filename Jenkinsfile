@@ -1,7 +1,7 @@
 pipeline {
     environment {
         registryCredential = 'Docker-hubb'
-        IMAGE_NAME = 'Khadijahmehmood/mlops-assignment1'
+        IMAGE_NAME = 'Khadijahmehmood/MLOPS-Assignment1'
         TAG = 'latest' 
     }
     agent any
@@ -14,7 +14,7 @@ pipeline {
         stage('Building our image') {
             steps {
                 script {
-                    docker.build("${IMAGE_NAME}:${TAG}")
+                    docker.build("${IMAGE_NAME}:${TAG}", "-f ./Dockerfile .")
                 }
             }
         }
