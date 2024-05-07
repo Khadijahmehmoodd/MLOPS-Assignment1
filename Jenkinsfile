@@ -1,14 +1,14 @@
 pipeline {
     environment {
         registryCredential = 'Docker-hubb'
-        IMAGE_NAME = 'Khadijahmehmood/MLOPS-Assignment1'
+        IMAGE_NAME = 'Khadijahmehmood/mlops-assignment1'
         TAG = 'latest' 
     }
     agent any
     stages {
         stage('Cloning Git Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/Khadijahmehmoodd/MLOPS-Assignment1.git'
+                git branch: 'main', url: 'https://github.com/Khadijahmehmoodd/mlops-assignment1.git'
             }
         }
         stage('Building our image') {
